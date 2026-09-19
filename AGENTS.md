@@ -1,6 +1,6 @@
 # AGENTS.md — parsenal
 
-Публичный репо PARSENAL — система скиллов Claude Code (@olegpars): dreamteam, digger, meaning, worldbuilder, ogre, conveyor. Локальная папка и remote сохранили старое имя `parsly`, GitHub редиректит.
+Публичный репо PARSENAL — система скиллов Claude Code (@olegpars): dreamteam, digger, meaning, worldbuilder, ogre, conveyor, dr-fanout. Локальная папка и remote сохранили старое имя `parsly`, GitHub редиректит.
 
 Контент публичный. Инвариант публикации — деперсонализация: 0 кириллицы в SKILL.md и README (функциональные RU-строки движков — например OUTPUT_LANG='ru' в dreamteam — допустимы), 0 «Oleg» в контенте скиллов, 0 HQ#, 0 локальных путей.
 
