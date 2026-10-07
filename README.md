@@ -9,7 +9,7 @@ Public Claude Code skill system by [@olegpars](https://github.com/olegpars). One
 | `meaning` | Work out WHAT to say before choosing the form: extract meaning from material, generate meaning directions, audit a text/concept against its meanings, compare concepts, translate a meaning core into a format. |
 | `worldbuilder` | Serial fictional worlds for short-form video: a world bible built file-by-file with HITL approval, canon evolution with conflict/retcon resolution, episode drafting, and read-only continuity checks. |
 | `ogre` | Two-headed orchestration: Opus runs the pipeline and writes self-contained specs into GitHub issue bodies, a second model of a different architecture answers every non-trivial fork blind, and hands execute. |
-| `conveyor` | Issue-map auto-execution: one dispatcher session drives an issue's sub-issues to Done in waves of parallel subagents -- frontier, claims, separate verifiers, GitHub bookkeeping -- with a HITL question queue instead of mid-run stalls. |
+| `conveyor` | Issue-map auto-execution: the head session executes tickets itself or through subagents, a model of a different family accepts each result, grills run in a fresh session -- frontier, claims, GitHub bookkeeping, one explicit "yes" before any push. |
 | `dr-fanout` | Fan out deep research to four browser models via Chrome MCP: one prompt (4 runs for triangulation) or N prompts x 4 (ChatGPT + Gemini + Claude + Grok), with account guards, safe long-prompt insertion, and file-based report capture. |
 
 ## Install
@@ -247,19 +247,20 @@ Forked from a private predecessor mode built on the methodology of Sergey (serej
 
 ## conveyor
 
-`conveyor` drives an issue map to completion. A map-charting flow builds a GitHub issue with sub-issues and stops; conveyor is the continuation: one dispatcher session takes that issue and drives it to its Destination in waves of parallel subagents with isolated contexts. The dispatcher never executes tickets itself -- only planning, waves, verification, GitHub bookkeeping, and a question queue for the user.
+`conveyor` drives an issue map to completion. A map-charting skill (for example the wayfinder skill in [mattpocock/skills](https://github.com/mattpocock/skills)) builds a GitHub issue with sub-issues and stops; conveyor is the continuation: one session takes that issue and drives it to its Destination. The head session executes tickets itself or through subagents, a model of a different family accepts every result, and the head keeps the GitHub bookkeeping.
 
 ### How It Runs
 
-- **Frontier:** open sub-issues that are not blocked, not claimed, and not marked human-only.
-- **Waves:** up to 4 parallel subagents, one ticket per subagent, each with an isolated context and a claim left in the ticket.
-- **Verification:** every ticket is accepted by a separate verifier (never the executor) against the ticket's DoD; external hands are always accepted by an in-session verifier agent.
-- **Bookkeeping:** close accepted tickets, release claims, update blocked-by links, maintain the map's decision log -- then re-check that everything landed in the target repo.
-- **Restart over compaction:** run state lives in GitHub (claims, labels, journal), so a fresh "drive map #N" session resumes idempotently instead of compacting a bloated context.
+- **Start mark:** the map gets a `wip:conveyor` label and a `conveyor-start` comment, so the label alone tells whether a run is in progress.
+- **Frontier:** open sub-issues that are not blocked, not claimed, and not marked human-only. Ticket types come from `wayfinder:*` labels; blocked-by comes from native GitHub issue dependencies, with a `Blocked by: #n` line as the fallback.
+- **Execution:** one ticket, or tickets touching the same files, the head does itself; 2+ independent tickets go to parallel subagents (up to 4 at once). Subagents never close tickets and never commit -- the head commits per ticket and closes what was accepted.
+- **Acceptance:** every ticket is accepted by a model of a different family (for example Codex CLI in a read-only sandbox), never by its executor. Findings are graded P1/P2/P3 against the ticket's DoD; at most two full acceptances per ticket: remaining P2 go to a follow-up ticket, P3 are noted, and a remaining P1 gets a fresh executor and one last acceptance of those P1 only; if they still fail, the ticket is marked `blocked` -- no endless loop.
+- **Bookkeeping:** close accepted tickets, release claims, update blocked-by links, add a gist to the map's `Decisions so far` -- then re-check that everything landed in the target repo.
+- **Restart over compaction:** run state lives in GitHub (claims, labels, journal), so a fresh session resumes idempotently instead of compacting a bloated context.
 
 ### HITL
 
-AFK tickets run continuously. Tickets that need human judgement feed a question queue: with the user present, questions come one at a time with a recommendation; with the user away, the queue accumulates while autonomous waves continue. Pushing waits for one explicit "yes" at the end of the run; anything external, irreversible, or costing money is never executed in the background -- it lands in the question queue for the user.
+Grills never run in the run session. When only grilling tickets are left, the run hands off to a fresh grill session (a `spawn_task` chip in Claude Code Desktop, or a one-line command elsewhere): it goes through the questions in rounds, each with a recommendation, records the decisions in the issues, and hands off back to the run. With the user away, the queue is written to the map while autonomous waves continue. Any push waits for one explicit "yes" at the end of the run; anything external, irreversible, or costing money is never executed in the background.
 
 ### Quickstart
 
@@ -267,14 +268,22 @@ AFK tickets run continuously. Tickets that need human judgement feed a question 
 /parsenal:conveyor -- drive the map #12 to the end
 ```
 
+### Быстрый старт (RU)
+
+1. Поставьте плагин: `/plugin marketplace add olegpars/parsenal`, затем `/plugin install parsenal@parsenal`.
+2. Нужна карта: GitHub issue с sub-issues, в теле - раздел `## Destination` (чем заканчивается работа). Удобно строить её скиллом wayfinder из [mattpocock/skills](https://github.com/mattpocock/skills); подойдёт и любой issue с sub-issues - conveyor сам спросит Destination.
+3. В свежей сессии Claude Code: `/parsenal:conveyor owner/repo#12` (или «drive the map owner/repo#12 to the end»).
+4. Дальше конвейер сам: план волны, исполнение, приёмка другой моделью, закрытие тикетов. Вопросы к вам - отдельной сессией-грилем; push - только после вашего «да» в конце прогона.
+
 ### Requirements
 
 - A GitHub repo with `gh` available: the map, claims, journal, and acceptance all live in issues.
-- A host that can run parallel subagents (Claude Code).
+- A host that can run subagents (Claude Code).
+- A verifier of a different model family with a read-only mode (for example Codex CLI); without one, a fresh-context subagent accepts, and the comment says so.
 
 ### Files
 
-- `skills/conveyor/SKILL.md`: the dispatcher loop, claims and restart, the HITL question queue, gates, model routing, and v1 boundaries.
+- `skills/conveyor/SKILL.md`: the loop, acceptance, worktree rules, claims and restart, grills in a fresh session, gates, models, and v1 boundaries.
 
 ## License
 
