@@ -1,13 +1,13 @@
 {
-  "name": "parsenal",
-  "description": "PARSENAL — public Claude Code skill system by @olegpars.",
+  "name": "parsly",
+  "description": "Parsly — public Claude Code skill system by @olegpars.",
   "owner": { "name": "Oleg Parshentsev", "email": "olegpars@gmail.com" },
   "plugins": [
     {
-      "name": "parsenal",
+      "name": "parsly",
       "source": "./",
       "description": "One plugin, seven skills: dreamteam (one-shot multi-agent expert council for hard decisions), digger (autonomous multi-hour deep-research pipeline with confidence-tiered knowledge base), meaning (work out WHAT to say before choosing the form), worldbuilder (serial fictional worlds for short-form video with a world bible and continuity checks), ogre (two-headed orchestration mode where a second model of a different architecture answers every fork blind), conveyor (issue-map auto-execution: the head session executes tickets itself or through subagents, and a model of a different family accepts each result), dr-fanout (fan out deep research to four browser models -- ChatGPT, Gemini, Claude, Grok -- via Chrome MCP).",
-      "version": "3.4.0",
+      "version": "4.0.0",
       "author": { "name": "Oleg Parshentsev" },
       "category": "productivity"
     }

@@ -1,4 +1,4 @@
-# PARSENAL
+# Parsly
 
 Public Claude Code skill system by [@olegpars](https://github.com/olegpars). One plugin, seven skills.
 
@@ -15,13 +15,22 @@ Public Claude Code skill system by [@olegpars](https://github.com/olegpars). One
 ## Install
 
 ```text
-/plugin marketplace add olegpars/parsenal
-/plugin install parsenal@parsenal
+/plugin marketplace add olegpars/parsly
+/plugin install parsly@parsly
 ```
 
-All seven skills become available and trigger on their own phrases. Installed this way, Claude Code namespaces slash commands by plugin: use `/parsenal:meaning`, `/parsenal:worldbuilder`, `/parsenal:ogre`, `/parsenal:conveyor` and `/parsenal:dr-fanout` (not the bare `/meaning` / `/worldbuilder` / `/ogre` / `/conveyor` / `/dr-fanout` forms).
+Formerly PARSENAL (and before that Parsival); the old GitHub URLs redirect here. If you installed `parsenal@parsenal`, switch over once:
 
-Manual install of a single skill (no marketplace): git clone https://github.com/olegpars/parsenal and copy the needed folder from `skills/` into `~/.claude/skills/` (Windows: `$env:USERPROFILE\.claude\skills\`). Only in this manual single-skill install do the bare `/meaning` / `/worldbuilder` / `/ogre` / `/conveyor` / `/dr-fanout` triggers apply.
+```text
+/plugin uninstall parsenal@parsenal
+/plugin marketplace remove parsenal
+/plugin marketplace add olegpars/parsly
+/plugin install parsly@parsly
+```
+
+All seven skills become available and trigger on their own phrases. Installed this way, Claude Code namespaces slash commands by plugin: use `/parsly:meaning`, `/parsly:worldbuilder`, `/parsly:ogre`, `/parsly:conveyor` and `/parsly:dr-fanout` (not the bare `/meaning` / `/worldbuilder` / `/ogre` / `/conveyor` / `/dr-fanout` forms).
+
+Manual install of a single skill (no marketplace): git clone https://github.com/olegpars/parsly and copy the needed folder from `skills/` into `~/.claude/skills/` (Windows: `$env:USERPROFILE\.claude\skills\`). Only in this manual single-skill install do the bare `/meaning` / `/worldbuilder` / `/ogre` / `/conveyor` / `/dr-fanout` triggers apply.
 
 ## dreamteam
 
@@ -153,7 +162,7 @@ Every mode centers on a **Meaning Map** -- a structured card (subject, observati
 ### Quickstart
 
 ```text
-/parsenal:meaning -- audit this draft against its meaning map
+/parsly:meaning -- audit this draft against its meaning map
 ```
 
 ### Requirements
@@ -186,7 +195,7 @@ The HITL boundary is absolute: nothing is written to a world's canon (bible file
 ### Quickstart
 
 ```text
-/parsenal:worldbuilder -- create a new serial world for my short-form video series
+/parsly:worldbuilder -- create a new serial world for my short-form video series
 ```
 
 ### Requirements
@@ -225,7 +234,7 @@ The blind protocol is the point: Opus states its own answer **first**, then send
 ### Quickstart
 
 ```text
-/parsenal:ogre -- two heads on this: migrate the billing cron to the new scheduler
+/parsly:ogre -- two heads on this: migrate the billing cron to the new scheduler
 ```
 
 ### Requirements
@@ -265,14 +274,14 @@ Grills never run in the run session. When only grilling tickets are left, the ru
 ### Quickstart
 
 ```text
-/parsenal:conveyor -- drive the map #12 to the end
+/parsly:conveyor -- drive the map #12 to the end
 ```
 
 ### Быстрый старт (RU)
 
-1. Поставьте плагин: `/plugin marketplace add olegpars/parsenal`, затем `/plugin install parsenal@parsenal`.
+1. Поставьте плагин: `/plugin marketplace add olegpars/parsly`, затем `/plugin install parsly@parsly`.
 2. Нужна карта: GitHub issue с sub-issues, в теле - раздел `## Destination` (чем заканчивается работа). Удобно строить её скиллом wayfinder из [mattpocock/skills](https://github.com/mattpocock/skills); подойдёт и любой issue с sub-issues - conveyor сам спросит Destination.
-3. В свежей сессии Claude Code: `/parsenal:conveyor owner/repo#12` (или «drive the map owner/repo#12 to the end»).
+3. В свежей сессии Claude Code: `/parsly:conveyor owner/repo#12` (или «drive the map owner/repo#12 to the end»).
 4. Дальше конвейер сам: план волны, исполнение, приёмка другой моделью, закрытие тикетов. Вопросы к вам - отдельной сессией-грилем; push - только после вашего «да» в конце прогона.
 
 ### Requirements

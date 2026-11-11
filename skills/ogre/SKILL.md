@@ -1,6 +1,6 @@
 ---
 name: ogre
-description: Use when the user explicitly asks for the ogre mode, "two heads on this", or "orchestrate this with a second opinion". Triggers -- multi-step work where the result has to be verifiable and the cost of an error is not zero: a series of tasks in a repo, a measurement or comparison, an analysis of a corpus, a batch of media, spending credits. Slash form is "/parsenal:ogre" (bare "/ogre" only applies to a manual single-skill install, see the PARSENAL README). Part of the PARSENAL skill system. Requires the Codex plugin for the second head. User-invoked only -- do not auto-trigger.
+description: Use when the user explicitly asks for the ogre mode, "two heads on this", or "orchestrate this with a second opinion". Triggers -- multi-step work where the result has to be verifiable and the cost of an error is not zero: a series of tasks in a repo, a measurement or comparison, an analysis of a corpus, a batch of media, spending credits. Slash form is "/parsly:ogre" (bare "/ogre" only applies to a manual single-skill install, see the Parsly README). Part of the Parsly skill system. Requires the Codex plugin for the second head. User-invoked only -- do not auto-trigger.
 disable-model-invocation: true
 ---
 
