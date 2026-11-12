@@ -1,0 +1,10 @@
+{
+  "name": "dirty-little-helpers",
+  "description": "Dirty Little Helpers: four lightweight subagents - a file scout, a web scout, a critic and a worker. They start with a small context and save your usage limits.",
+  "version": "1.2.0",
+  "author": { "name": "Oleg Parshentsev" },
+  "homepage": "https://github.com/olegpars/parsly#dirty-little-helpers",
+  "repository": "https://github.com/olegpars/parsly",
+  "license": "MIT",
+  "keywords": ["claude-code", "subagents", "agents", "cursor", "codex", "token-saving"]
+}

@@ -10,6 +10,14 @@
       "version": "4.0.0",
       "author": { "name": "Oleg Parshentsev" },
       "category": "productivity"
+    },
+    {
+      "name": "dirty-little-helpers",
+      "source": "./plugins/dirty-little-helpers",
+      "description": "Four lightweight subagents - scout, web-scout, critic, worker. They start with a small context and save usage limits. Also ship as files for Cursor and Codex.",
+      "version": "1.2.0",
+      "author": { "name": "Oleg Parshentsev" },
+      "category": "productivity"
     }
   ]
 }

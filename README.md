@@ -1,6 +1,6 @@
 # Parsly
 
-Public Claude Code skill system by [@olegpars](https://github.com/olegpars). One plugin, seven skills.
+Public Claude Code skill system by [@olegpars](https://github.com/olegpars). One plugin, seven skills - plus a separate plugin of lightweight subagents, [Dirty Little Helpers](#dirty-little-helpers).
 
 | Skill | What it does |
 |---|---|
@@ -293,6 +293,57 @@ Grills never run in the run session. When only grilling tickets are left, the ru
 ### Files
 
 - `skills/conveyor/SKILL.md`: the loop, acceptance, worktree rules, claims and restart, grills in a fresh session, gates, models, and v1 boundaries.
+
+## Dirty Little Helpers
+
+A separate plugin in the same marketplace: four lightweight subagents the main agent hands rough work to. Each one starts with a small tool set, so a call costs several times less than the built-in general-purpose subagent. Works in **Claude Code**, **Cursor** and **Codex**.
+
+| Agent | What it does | Read-only |
+|---|---|---|
+| `scout` | finds and reads files, summarizes briefly, changes nothing | yes |
+| `web-scout` | searches the web on one question, returns a brief with links | writes only to the file you name |
+| `critic` | checks a finished text, plan or code, edits nothing | yes |
+| `worker` | does one task with edits in the files you name | no |
+
+### Why
+
+When an agent hands a task to a subagent without saying which one, the general-purpose subagent starts. It brings everything: the skill list, all tools and connectors. In our measurement in Claude Code its first call cost about 60K tokens; a lightweight subagent with a narrow tool set cost 9-16K. Scouting and checking also run in a separate context window, so only a short summary returns to the main conversation. The four descriptions add about 195 tokens to every Claude Code session; the full agent text loads only when the agent is called.
+
+The numbers are our own measurement of one first call on Opus in Claude Code, not Anthropic data. Cursor and Codex were not measured.
+
+### Install
+
+Claude Code, as a plugin (only the four agents, without the Parsly skills):
+
+```text
+/plugin marketplace add olegpars/parsly
+/plugin install dirty-little-helpers@parsly
+```
+
+Plugin agents carry a prefix: `dirty-little-helpers:scout`, `dirty-little-helpers:critic` and so on.
+
+Claude Code, by copying files: put the four `.md` files from `plugins/dirty-little-helpers/agents/` into `~/.claude/agents/` (all projects) or `.claude/agents/` inside a project, then restart Claude Code. The agents are called `scout`, `web-scout`, `critic`, `worker`.
+
+Cursor reads the Claude Code agents folder, so the copied files work there too; otherwise put the same `.md` files into `~/.cursor/agents/`. Cursor ignores `tools` - the only restriction it honors is `readonly: true` (set on `scout` and `critic`). If an agent does not start, change `model: sonnet` to `model: inherit`.
+
+Codex: put the `.toml` files from `plugins/dirty-little-helpers/codex/agents/` into `~/.codex/agents/` (or `.codex/agents/` in a project). In Codex the hyphenated agent is `web_scout`. Skills, plugins, apps and memories are switched off in these files; Codex cannot disable single tools, so read-only for `scout` and `critic` rests on their instructions. We tested Codex CLI 0.160: it finds all four files, but in `codex exec` it could not start an agent by name and passed the instructions to a helper by hand.
+
+### Usage
+
+Call them by name: "have scout find every .md file in this folder and say in a line what each is about", "have critic check this plan step by step". A subagent does not see your conversation - give it the whole task: what to do, where the files are, what to return.
+
+### Быстрый старт (RU)
+
+1. В Claude Code: `/plugin marketplace add olegpars/parsly`, затем `/plugin install dirty-little-helpers@parsly`.
+2. Или скопируйте четыре файла из `plugins/dirty-little-helpers/agents/` в папку `~/.claude/agents` (Windows: `%USERPROFILE%\.claudegents`) и перезапустите Claude Code.
+3. Пишите: «пусть scout найдёт…», «пусть critic проверит этот план». Агенты отвечают на языке поручения.
+
+Подробная инструкция по шагам для Windows и Mac, Cursor и Codex - в боте [@olegpars42_bot](https://t.me/olegpars42_bot?start=agents_readme).
+
+### Files
+
+- `plugins/dirty-little-helpers/agents/`: `scout.md`, `web-scout.md`, `critic.md`, `worker.md` - Claude Code and Cursor.
+- `plugins/dirty-little-helpers/codex/agents/`: `scout.toml`, `web_scout.toml`, `critic.toml`, `worker.toml` - Codex.
 
 ## License
 
