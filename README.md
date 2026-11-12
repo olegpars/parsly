@@ -334,30 +334,11 @@ Call them by name: "have scout find every .md file in this folder and say in a l
 
 ### Быстрый старт (RU)
 
-Скачивать и раскладывать файлы не нужно: агент поставит помощников сам. Скопируйте сообщение ниже (кнопка копирования - в правом верхнем углу блока) и отправьте его в Claude Code, Codex или Cursor как обычную просьбу.
+1. В Claude Code: `/plugin marketplace add olegpars/parsly`, затем `/plugin install dirty-little-helpers@parsly`.
+2. Или скопируйте четыре файла из `plugins/dirty-little-helpers/agents/` в папку `~/.claude/agents` (Windows: `%USERPROFILE%\.claude\agents`) и перезапустите Claude Code.
+3. Пишите: «пусть scout найдёт…», «пусть critic проверит этот план». Агенты отвечают на языке поручения.
 
-```text
-Поставь мне Dirty Little Helpers - четырёх помощников (scout, web-scout, critic, worker) из https://github.com/olegpars/parsly. Сделай всё сам, мне ничего не надо скачивать и искать.
-
-1. Пойми, в какой ты программе (Claude Code, Codex или Cursor) и какая у меня система (Windows, Mac или Linux).
-2. Скачай четыре файла, ветка main:
-   - Claude Code и Cursor: scout.md, web-scout.md, critic.md, worker.md из plugins/dirty-little-helpers/agents/
-   - Codex: scout.toml, web_scout.toml, critic.toml, worker.toml из plugins/dirty-little-helpers/codex/agents/
-   Прямая ссылка: https://raw.githubusercontent.com/olegpars/parsly/main/plugins/dirty-little-helpers/agents/scout.md - остальные так же. Не открывается - возьми через git clone или страницу файла на github.com.
-3. Положи их в папку агентов в моей домашней папке (нет папки - создай):
-   - Claude Code: ~/.claude/agents (если задана CLAUDE_CONFIG_DIR - её папка agents)
-   - Codex: ~/.codex/agents (если задана CODEX_HOME - её папка agents)
-   - Cursor: ~/.cursor/agents, и в каждом файле замени строку model: sonnet на model: inherit
-   Файлы - прямо в эту папку, без вложенных папок. Файл с таким именем уже есть - не трогай его и спроси меня.
-4. Проверь, что все четыре файла на месте и не пустые.
-5. Ответь коротко и без технических слов: что поставил, что программу надо перезапустить и как позвать помощника, например: «пусть critic проверит этот план».
-```
-
-Агент может спросить разрешение скачать и сохранить файлы - разрешите. Потом перезапустите программу и пишите: «пусть scout найдёт…», «пусть critic проверит этот план». Агенты отвечают на языке поручения.
-
-Вручную в Claude Code - две команды в чате: `/plugin marketplace add olegpars/parsly`, затем `/plugin install dirty-little-helpers@parsly`.
-
-Если что-то не получилось - бот [@olegpars42_bot](https://t.me/olegpars42_bot?start=agents_readme) подскажет.
+Подробная инструкция по шагам для Windows и Mac, Cursor и Codex - в боте [@olegpars42_bot](https://t.me/olegpars42_bot?start=agents_readme).
 
 ### Files
 
